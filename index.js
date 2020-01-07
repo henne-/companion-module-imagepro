@@ -174,6 +174,7 @@ instance.prototype.destroy = function() {
 
 instance.prototype.actions = function(system) {
 	var self = this;
+	console.log(self);
 	self.system.emit('instance_actions', self.id, {
 		'freeze':     {
 			label: 'Freeze Output',
@@ -225,6 +226,25 @@ instance.prototype.actions = function(system) {
 						 choices: self.ipInput
 				}
 			]
+		},
+		'saturation': {
+			label: 'Saturation',
+			options: [
+				{
+					type: 'text',
+					label: 'Saturation',
+					id: 'saturation', 
+					default: '100',
+					description: '0 - 255'
+				},
+                                {
+                                        type: 'dropdown',
+                                                 label: 'Input',
+                                                 id: 'inpId',
+                                                 default: '1',
+                                                 choices: self.ipInput
+                                }
+			]
 		}
 
 	});
@@ -247,6 +267,9 @@ instance.prototype.actions = function(system) {
 
 			case 'freeze':
 				cmd = 'FREEZ '+ opt.frzId;
+				break;
+			case 'saturation':
+				cmd = 'VIDCOL --con ' + opt.inpId + ' --sat ' + opt.sat;
 				break;
 
 	};
